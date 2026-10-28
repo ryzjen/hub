@@ -708,7 +708,7 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">✨ Gemini AI • Rychlá odpověď</span>
-                    <span class="pill-badge">v3.0 Flash</span>
+                    <span class="pill-badge" id="gemini-active-model-badge">Auto-Detect</span>
                 </div>
                 <div class="gemini-box">
                     <div class="gemini-input-row">
@@ -1157,16 +1157,48 @@
             }
         }
 
-        // Gemini AI Integrace
+        // Gemini AI Integrace – Automatická detekce dostupného modelu
         const geminiBtn = document.getElementById('gemini-submit');
         const geminiInputEl = document.getElementById('gemini-query');
         const geminiOutputEl = document.getElementById('gemini-output');
+        const geminiBadgeEl = document.getElementById('gemini-active-model-badge');
 
         if (geminiBtn && geminiInputEl) {
             geminiBtn.addEventListener('click', askGemini);
             geminiInputEl.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') askGemini();
             });
+        }
+
+        async function getAvailableModel(apiKey) {
+            const cachedModel = localStorage.getItem('hub_gemini_detected_model');
+            if (cachedModel) return cachedModel;
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+                const data = await res.json();
+                if (data.models && Array.isArray(data.models)) {
+                    // Najde první model podporující generateContent, který má v názvu flash nebo gemini
+                    const match = data.models.find(m => 
+                        m.supportedGenerationMethods && 
+                        m.supportedGenerationMethods.includes('generateContent') &&
+                        m.name.includes('flash')
+                    ) || data.models.find(m => 
+                        m.supportedGenerationMethods && 
+                        m.supportedGenerationMethods.includes('generateContent')
+                    );
+
+                    if (match && match.name) {
+                        // match.name je ve formátu "models/gemini-..."
+                        const cleanName = match.name.replace(/^models\//, '');
+                        localStorage.setItem('hub_gemini_detected_model', cleanName);
+                        return cleanName;
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+            return null;
         }
 
         async function askGemini() {
@@ -1181,10 +1213,19 @@
             }
 
             geminiOutputEl.style.display = 'block';
-            geminiOutputEl.textContent = 'Gemini přemýšlí...';
+            geminiOutputEl.textContent = 'Hledám aktivní model a generuji odpověď...';
+
+            const activeModel = await getAvailableModel(apiKey);
+
+            if (!activeModel) {
+                geminiOutputEl.textContent = 'Chyba API: Google nepovolil žádný model pro tento klíč. Zkontroluj klíč v Google AI Studio.';
+                return;
+            }
+
+            if (geminiBadgeEl) geminiBadgeEl.textContent = activeModel;
 
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent?key=${apiKey}`, {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${activeModel}:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1200,6 +1241,8 @@
                 }
 
                 if (data.error) {
+                    // Pokud model expiroval, smažeme mezipaměť modelu
+                    localStorage.removeItem('hub_gemini_detected_model');
                     geminiOutputEl.textContent = `Chyba API: ${data.error.message || 'Neplatný klíč'}`;
                 } else {
                     geminiOutputEl.textContent = 'Model nevrátil žádnou odpověď.';
