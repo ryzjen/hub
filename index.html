@@ -708,7 +708,7 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">✨ Gemini AI • Rychlá odpověď</span>
-                    <span class="pill-badge">v2.0 Flash</span>
+                    <span class="pill-badge">v3.0 Flash</span>
                 </div>
                 <div class="gemini-box">
                     <div class="gemini-input-row">
@@ -1184,7 +1184,7 @@
             geminiOutputEl.textContent = 'Gemini přemýšlí...';
 
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
