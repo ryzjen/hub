@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>COMMAND HUB</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,37 +10,22 @@
     <style>
         :root {
             --bg-color: #0b0f17;
-            --card-bg: rgba(22, 28, 41, 0.75);
-            --card-border: rgba(255, 255, 255, 0.07);
+            --card-bg: rgba(22, 28, 41, 0.72);
+            --card-border: rgba(255, 255, 255, 0.08);
             --text-main: #f3f4f6;
             --text-muted: #94a3b8;
             --accent-blue: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.2);
+            --accent-glow: rgba(59, 130, 246, 0.25);
             --danger: #ef4444;
-            --item-bg: rgba(255, 255, 255, 0.03);
-            --item-hover: rgba(255, 255, 255, 0.06);
-            --item-border: rgba(255, 255, 255, 0.04);
-            --active-bg: rgba(59, 130, 246, 0.12);
-            --active-border: rgba(59, 130, 246, 0.35);
+            --item-bg: rgba(255, 255, 255, 0.035);
+            --item-hover: rgba(255, 255, 255, 0.07);
+            --item-border: rgba(255, 255, 255, 0.05);
+            --active-bg: rgba(59, 130, 246, 0.15);
+            --active-border: rgba(59, 130, 246, 0.4);
             --radius-lg: 16px;
-            --radius-md: 12px;
+            --radius-md: 11px;
             --radius-sm: 8px;
             --font-size-base: 14px;
-        }
-
-        /* Větší měřítko a písmo pro počítače a velké monitory */
-        @media (min-width: 1024px) {
-            :root {
-                --font-size-base: 16px;
-                --radius-lg: 18px;
-                --radius-md: 14px;
-            }
-        }
-
-        @media (min-width: 1440px) {
-            :root {
-                --font-size-base: 17px;
-            }
         }
 
         * {
@@ -54,8 +39,8 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(30, 58, 138, 0.15) 0px, transparent 50%);
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.13) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(37, 99, 235, 0.12) 0%, transparent 45%);
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
@@ -66,11 +51,11 @@
 
         .dashboard-container {
             width: 100%;
-            max-width: 1560px;
-            padding: clamp(1rem, 2.5vw, 2.5rem);
+            max-width: 1540px;
+            padding: clamp(1rem, 2vw, 2.2rem);
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1.25rem;
         }
 
         /* Hlavička */
@@ -78,26 +63,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0.25rem 1rem;
+            padding: 0.4rem 0.2rem 0.8rem;
             border-bottom: 1px solid var(--card-border);
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.15rem;
+            gap: 0.65rem;
+            font-size: 1.05rem;
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
         .brand-dot {
-            width: 10px;
-            height: 10px;
+            width: 9px;
+            height: 9px;
             background-color: var(--accent-blue);
             border-radius: 50%;
-            box-shadow: 0 0 12px var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
         }
 
         .datetime {
@@ -105,37 +90,17 @@
         }
 
         .time {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             line-height: 1.1;
         }
 
         .date {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             margin-top: 0.2rem;
             font-weight: 500;
-        }
-
-        /* Mřížka */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.25rem;
-        }
-
-        @media (min-width: 768px) {
-            .grid-layout {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .grid-layout {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
-            }
         }
 
         /* Karty */
@@ -143,40 +108,40 @@
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: var(--radius-lg);
-            padding: clamp(1.2rem, 1.8vw, 1.6rem);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            padding: clamp(1rem, 1.5vw, 1.4rem);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            min-height: 250px;
-            box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+            min-height: 240px;
+            box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.45);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.1rem;
+            margin-bottom: 0.9rem;
         }
 
         .card-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.06em;
             text-transform: uppercase;
             color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .card-body {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.65rem;
             overflow-y: auto;
-            max-height: 380px;
+            max-height: 340px;
             padding-right: 2px;
         }
 
@@ -188,23 +153,21 @@
             border-radius: 4px;
         }
 
-        /* Segmented / Záložky */
         .pill-badge {
             background: rgba(59, 130, 246, 0.15);
             color: var(--accent-blue);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.55rem;
             border-radius: 9999px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.25);
         }
 
-        /* Seznam prvků */
         .list-item {
             background-color: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-md);
-            padding: 0.85rem 1rem;
+            padding: 0.75rem 0.9rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -218,12 +181,12 @@
         .item-main {
             display: flex;
             flex-direction: column;
-            gap: 0.2rem;
+            gap: 0.15rem;
             overflow: hidden;
         }
 
         .item-title {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-main);
             white-space: nowrap;
@@ -232,34 +195,34 @@
         }
 
         .item-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
         }
 
         .item-badge {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             color: var(--text-muted);
             white-space: nowrap;
         }
 
-        /* SmartThings Grid */
+        /* SmartThings */
         .st-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.65rem;
+            gap: 0.55rem;
         }
 
         .st-btn {
             background-color: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-md);
-            padding: 0.9rem;
+            padding: 0.75rem;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.5rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -283,14 +246,14 @@
             background-color: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-md);
-            padding: 0.85rem 1rem;
+            padding: 0.75rem 0.9rem;
         }
 
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 44px;
-            height: 24px;
+            width: 40px;
+            height: 22px;
         }
 
         .toggle-switch input {
@@ -305,14 +268,14 @@
             inset: 0;
             background-color: rgba(255, 255, 255, 0.15);
             transition: .25s;
-            border-radius: 24px;
+            border-radius: 22px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 16px;
+            width: 16px;
             left: 3px;
             bottom: 3px;
             background-color: white;
@@ -325,28 +288,28 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(20px);
+            transform: translateX(18px);
         }
 
         /* Poznámky */
         .notes-textarea {
             width: 100%;
             height: 100%;
-            min-height: 180px;
+            min-height: 160px;
             background: transparent;
             border: none;
             outline: none;
             color: var(--text-main);
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.88rem;
+            line-height: 1.55;
             resize: none;
         }
 
-        /* To-do List */
+        /* To-Do */
         .todo-input-group {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
+            gap: 0.45rem;
+            margin-bottom: 0.4rem;
         }
 
         .todo-input {
@@ -354,9 +317,9 @@
             background-color: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-sm);
-            padding: 0.75rem 0.9rem;
+            padding: 0.65rem 0.8rem;
             color: var(--text-main);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             outline: none;
         }
 
@@ -369,8 +332,8 @@
             color: white;
             border: none;
             border-radius: var(--radius-sm);
-            width: 42px;
-            font-size: 1.2rem;
+            width: 38px;
+            font-size: 1.1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -384,22 +347,22 @@
             background-color: var(--item-bg);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-md);
-            padding: 0.75rem 0.9rem;
+            padding: 0.65rem 0.8rem;
         }
 
         .todo-left {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.65rem;
             overflow: hidden;
         }
 
         .todo-checkbox {
             appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 17px;
+            height: 17px;
             border: 2px solid var(--text-muted);
-            border-radius: 5px;
+            border-radius: 4px;
             outline: none;
             cursor: pointer;
             position: relative;
@@ -413,7 +376,7 @@
         .todo-checkbox:checked::after {
             content: '✓';
             color: white;
-            font-size: 12px;
+            font-size: 11px;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -421,7 +384,7 @@
         }
 
         .todo-text {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
         }
 
@@ -435,7 +398,7 @@
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             padding: 0.2rem;
         }
 
@@ -443,13 +406,13 @@
             color: var(--danger);
         }
 
-        /* Plovoucí ozubené kolo pro nastavení */
+        /* Plovoucí nastavení */
         .settings-fab {
             position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 46px;
-            height: 46px;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background-color: var(--accent-blue);
             color: white;
@@ -457,15 +420,136 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             box-shadow: 0 4px 14px var(--accent-glow);
             cursor: pointer;
             z-index: 50;
             transition: transform 0.2s;
         }
 
-        .settings-fab:hover {
-            transform: scale(1.08);
+        /* Spodní mobilní navigace (skrytá na tabletu a PC) */
+        .mobile-nav {
+            display: none;
+        }
+
+        /* --- MOBILNÍ ROZHRANÍ (do 650px) --- */
+        @media (max-width: 650px) {
+            body {
+                padding-bottom: 75px; /* rezerva pro spodní dock */
+            }
+            .dashboard-container {
+                padding: 0.85rem;
+                gap: 0.85rem;
+            }
+            .time {
+                font-size: 1.3rem;
+            }
+            .grid-layout {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+            }
+            /* Skryje neaktivní panely na mobilu */
+            .grid-layout > .card {
+                display: none;
+                min-height: auto;
+                height: calc(100vh - 165px);
+            }
+            .grid-layout > .card.mobile-active {
+                display: flex;
+            }
+            .card-body {
+                max-height: none;
+            }
+            .notes-textarea {
+                min-height: 250px;
+            }
+            .settings-fab {
+                bottom: 70px;
+                right: 1rem;
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            /* Spodní dock */
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background-color: rgba(15, 20, 31, 0.94);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-top: 1px solid var(--card-border);
+                justify-content: space-around;
+                align-items: center;
+                z-index: 40;
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            .nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.2rem;
+                background: none;
+                border: none;
+                color: var(--text-muted);
+                font-size: 0.7rem;
+                font-weight: 600;
+                cursor: pointer;
+                padding: 0.4rem;
+                width: 25%;
+            }
+            .nav-item span.icon {
+                font-size: 1.15rem;
+            }
+            .nav-item.active {
+                color: var(--accent-blue);
+            }
+        }
+
+        /* --- IPAD & TABLETY (651px až 1199px) --- */
+        @media (min-width: 651px) and (max-width: 1199px) {
+            :root {
+                --font-size-base: 13.5px;
+                --radius-lg: 14px;
+                --radius-md: 10px;
+            }
+            .dashboard-container {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .grid-layout {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.9rem;
+            }
+            .card {
+                padding: 1rem;
+                min-height: 210px;
+            }
+            .card-body {
+                max-height: 290px;
+            }
+            .time {
+                font-size: 1.35rem;
+            }
+        }
+
+        /* --- PC A VELKÉ MONITORY (od 1200px) --- */
+        @media (min-width: 1200px) {
+            :root {
+                --font-size-base: 15.5px;
+                --radius-lg: 18px;
+                --radius-md: 12px;
+            }
+            .grid-layout {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.4rem;
+            }
         }
 
         /* Modal */
@@ -490,32 +574,32 @@
             border: 1px solid var(--card-border);
             border-radius: var(--radius-lg);
             width: 100%;
-            max-width: 480px;
-            padding: 1.6rem;
+            max-width: 440px;
+            padding: 1.4rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1rem;
         }
 
         .modal-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
         }
 
         .modal-form {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.9rem;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.35rem;
         }
 
         .form-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
@@ -523,17 +607,17 @@
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--item-border);
             border-radius: var(--radius-sm);
-            padding: 0.7rem 0.9rem;
+            padding: 0.65rem 0.8rem;
             color: var(--text-main);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             outline: none;
         }
 
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 0.8rem;
-            margin-top: 0.5rem;
+            gap: 0.7rem;
+            margin-top: 0.4rem;
         }
 
         .btn-cancel {
@@ -541,8 +625,9 @@
             border: 1px solid var(--item-border);
             color: var(--text-muted);
             border-radius: var(--radius-sm);
-            padding: 0.6rem 1rem;
+            padding: 0.55rem 0.9rem;
             cursor: pointer;
+            font-size: 0.85rem;
         }
 
         .btn-save {
@@ -550,16 +635,17 @@
             border: none;
             color: white;
             border-radius: var(--radius-sm);
-            padding: 0.6rem 1.2rem;
+            padding: 0.55rem 1.1rem;
             font-weight: 600;
             cursor: pointer;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
 
     <div class="dashboard-container">
-        <!-- Hlavička s časem -->
+        <!-- Hlavička -->
         <header>
             <div class="brand">
                 <span class="brand-dot"></span>
@@ -575,7 +661,7 @@
         <div class="grid-layout">
             
             <!-- Rozvrh hodin -->
-            <div class="card">
+            <div class="card mobile-active" id="tab-school">
                 <div class="card-header">
                     <span class="card-title">Rozvrh hodin</span>
                     <span class="pill-badge" id="schedule-day-badge">Bakaláři</span>
@@ -606,20 +692,20 @@
             </div>
 
             <!-- iCloud Kalendář -->
-            <div class="card">
+            <div class="card" id="tab-calendar">
                 <div class="card-header">
                     <span class="card-title">iCloud Kalendář</span>
                     <span style="font-size: 0.75rem; color: var(--text-muted);" id="calendar-status">🔗</span>
                 </div>
                 <div class="card-body" id="calendar-events-container">
-                    <div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">
+                    <div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">
                         Vlož odkaz na kalendář v nastavení (ozubené kolo).
                     </div>
                 </div>
             </div>
 
-            <!-- SmartThings ovladač -->
-            <div class="card">
+            <!-- SmartThings -->
+            <div class="card" id="tab-home">
                 <div class="card-header">
                     <span class="card-title">SmartThings</span>
                     <span class="pill-badge">Pokoj</span>
@@ -640,16 +726,16 @@
                         </button>
                     </div>
 
-                    <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.4rem;">
+                    <div style="display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.35rem;">
                         <div class="st-dev-row">
-                            <span style="font-size: 0.9rem; font-weight: 500;">Noční lampa</span>
+                            <span style="font-size: 0.85rem; font-weight: 500;">Noční lampa</span>
                             <label class="toggle-switch">
                                 <input type="checkbox" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="st-dev-row">
-                            <span style="font-size: 0.9rem; font-weight: 500;">PC & Monitory</span>
+                            <span style="font-size: 0.85rem; font-weight: 500;">PC & Monitory</span>
                             <label class="toggle-switch">
                                 <input type="checkbox">
                                 <span class="slider"></span>
@@ -659,18 +745,8 @@
                 </div>
             </div>
 
-            <!-- Rychlé poznámky -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">Rychlá poznámka</span>
-                </div>
-                <div class="card-body">
-                    <textarea class="notes-textarea" id="scratchpad" placeholder="Zapiš myšlenku nebo poznámky..."></textarea>
-                </div>
-            </div>
-
-            <!-- To-Do úkoly -->
-            <div class="card">
+            <!-- To-Do úkoly & Poznámka -->
+            <div class="card" id="tab-tasks">
                 <div class="card-header">
                     <span class="card-title">Úkoly a list</span>
                     <span class="pill-badge" id="todo-count">0/0</span>
@@ -680,17 +756,42 @@
                         <input type="text" class="todo-input" id="todo-new-text" placeholder="Nový úkol...">
                         <button class="btn-add" id="todo-btn-add">+</button>
                     </div>
-                    <div id="todo-items-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem;"></div>
+                    <div id="todo-items-list" style="display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.35rem;"></div>
+
+                    <div style="margin-top: 0.8rem; border-top: 1px solid var(--card-border); padding-top: 0.6rem;">
+                        <span class="card-title" style="margin-bottom: 0.4rem;">Rychlá poznámka</span>
+                        <textarea class="notes-textarea" id="scratchpad" placeholder="Zapiš myšlenku nebo poznámky..."></textarea>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
 
+    <!-- Mobilní navigační panel (zobrazí se pouze na telefonu) -->
+    <nav class="mobile-nav">
+        <button class="nav-item active" onclick="switchMobileTab('tab-school', this)">
+            <span class="icon">🏫</span>
+            <span>Škola</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('tab-calendar', this)">
+            <span class="icon">📅</span>
+            <span>Kalendář</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('tab-home', this)">
+            <span class="icon">⚡</span>
+            <span>Pokoj</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('tab-tasks', this)">
+            <span class="icon">📝</span>
+            <span>Úkoly</span>
+        </button>
+    </nav>
+
     <!-- Plovoucí ozubené kolo -->
     <button class="settings-fab" id="open-settings-btn" title="Nastavení">⚙</button>
 
-    <!-- Modal pro nastavení URL kalendáře -->
+    <!-- Modal pro nastavení kalendáře -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal-box">
             <div class="modal-title">Nastavení kalendáře</div>
@@ -708,7 +809,16 @@
     </div>
 
     <script>
-        // 1. Hodiny a datum
+        // Přepínání záložek na telefonu
+        function switchMobileTab(cardId, btn) {
+            document.querySelectorAll('.grid-layout > .card').forEach(c => c.classList.remove('mobile-active'));
+            document.querySelectorAll('.mobile-nav .nav-item').forEach(b => b.classList.remove('active'));
+            
+            const target = document.getElementById(cardId);
+            if (target) target.classList.add('mobile-active');
+            if (btn) btn.classList.add('active');
+        }
+
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -723,14 +833,12 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // 2. Poznámky (Persistence do LocalStorage)
         const scratchpad = document.getElementById('scratchpad');
         scratchpad.value = localStorage.getItem('hub_notes') || '';
         scratchpad.addEventListener('input', (e) => {
             localStorage.setItem('hub_notes', e.target.value);
         });
 
-        // 3. To-Do Úkoly
         let tasks = JSON.parse(localStorage.getItem('hub_tasks') || '[]');
 
         function saveAndRenderTasks() {
@@ -782,7 +890,6 @@
         }
         saveAndRenderTasks();
 
-        // 4. Modal Nastavení
         const modal = document.getElementById('settings-modal');
         const calInput = document.getElementById('calendar-url-input');
 
@@ -805,30 +912,28 @@
             loadCalendar();
         });
 
-        // 5. Načítání a parsování kalendáře
         async function loadCalendar() {
             const url = localStorage.getItem('hub_ics_url');
             const container = document.getElementById('calendar-events-container');
             const status = document.getElementById('calendar-status');
 
             if (!url) {
-                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">Vlož odkaz na kalendář v nastavení (ozubené kolo).</div>';
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Vlož odkaz na kalendář v nastavení (ozubené kolo).</div>';
                 return;
             }
 
             status.textContent = '⏳';
             try {
-                // Přístup přes proxy k obejití CORS omezení v prohlížeči
                 const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
                 const res = await fetch(proxyUrl);
-                if (!res.ok) throw new Error('Chyba stahování');
+                if (!res.ok) throw new Error('Chyba');
                 const text = await res.text();
                 parseICS(text);
                 status.textContent = '●';
             } catch (err) {
                 console.error(err);
                 status.textContent = '✕';
-                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">Kalendář se nepodařilo synchronizovat. Zkontroluj odkaz.</div>';
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Kalendář se nepodařilo synchronizovat.</div>';
             }
         }
 
@@ -865,7 +970,7 @@
             container.innerHTML = '';
 
             if (events.length === 0) {
-                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">Žádné nadcházející události.</div>';
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Žádné nadcházející události.</div>';
                 return;
             }
 
