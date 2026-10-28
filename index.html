@@ -1,681 +1,904 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Command Hub</title>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #0b0d10;
-      color: #e2e8f0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      padding: 16px;
-      padding-bottom: 100px;
-      min-height: 100vh;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 16px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #1e2430;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; letter-spacing: 0.5px; }
-    .dot { width: 8px; height: 8px; background: #3b82f6; border-radius: 50%; box-shadow: 0 0 8px #3b82f6; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 16px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .card {
-      background: #13171f;
-      border: 1px solid #202736;
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #64748b;
-      font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #1c2331;
-    }
-    .row {
-      background: #181e29;
-      border: 1px solid #222b3d;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .event-row {
-      background: #181e29;
-      border: 1px solid #222b3d;
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 8px;
-      font-size: 13px;
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-      transition: background-color 0.15s, border-color 0.15s, transform 0.1s;
-    }
-    .event-row:hover {
-      background: #1d2533;
-      border-color: #3b82f6;
-      transform: translateY(-1px);
-    }
-    .event-row.today {
-      border-color: #2563eb;
-      background: #13233d;
-    }
-    .event-row.today:hover {
-      background: #172c4d;
-    }
-    .sub { font-size: 11px; color: #64748b; margin-top: 2px; }
-    .event-section-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: #38bdf8;
-      margin: 10px 0 6px 2px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .event-section-label.upcoming {
-      color: #94a3b8;
-      margin-top: 14px;
-    }
-    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-    .btn {
-      background: #181e29;
-      border: 1px solid #222b3d;
-      color: #cbd5e1;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: left;
-    }
-    .btn:hover { background: #202738; color: #fff; }
-    textarea {
-      width: 100%;
-      height: 110px;
-      background: #181e29;
-      border: 1px solid #222b3d;
-      border-radius: 10px;
-      color: #fff;
-      padding: 10px;
-      font-size: 13px;
-      resize: none;
-      outline: none;
-    }
-    input[type="text"], input[type="password"] {
-      background: #181e29;
-      border: 1px solid #222b3d;
-      border-radius: 8px;
-      color: #fff;
-      padding: 8px 10px;
-      font-size: 12px;
-      outline: none;
-      width: 100%;
-    }
-    .add-btn { background: #2563eb; color: #fff; border: none; border-radius: 8px; padding: 0 14px; font-weight: bold; cursor: pointer; }
-    .span-2 { grid-column: span 1; }
-    @media (min-width: 900px) { .span-2 { grid-column: span 2; } }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMMAND HUB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f17;
+            --card-bg: rgba(22, 28, 41, 0.75);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --text-main: #f3f4f6;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --danger: #ef4444;
+            --item-bg: rgba(255, 255, 255, 0.03);
+            --item-hover: rgba(255, 255, 255, 0.06);
+            --item-border: rgba(255, 255, 255, 0.04);
+            --active-bg: rgba(59, 130, 246, 0.12);
+            --active-border: rgba(59, 130, 246, 0.35);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --font-size-base: 14px;
+        }
 
-    .fab-btn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: #2563eb;
-      border: 1px solid #3b82f6;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
-      cursor: pointer;
-      z-index: 999;
-      transition: transform 0.15s ease;
-    }
-    .fab-btn:hover { transform: scale(1.08); background: #1d4ed8; }
+        /* Větší měřítko a písmo pro počítače a velké monitory */
+        @media (min-width: 1024px) {
+            :root {
+                --font-size-base: 16px;
+                --radius-lg: 18px;
+                --radius-md: 14px;
+            }
+        }
 
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 16px;
-    }
-    .modal-backdrop.active { display: flex; }
-    .modal-content {
-      background: #13171f;
-      border: 1px solid #283347;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 440px;
-      padding: 22px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #1f2737;
-    }
-    .field-group { margin-bottom: 12px; }
-    .field-label { display: block; font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; margin-bottom: 6px; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
-    .btn-secondary { background: #1c2331; color: #94a3b8; border: 1px solid #283347; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; }
-    .btn-primary { background: #2563eb; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
-  </style>
+        @media (min-width: 1440px) {
+            :root {
+                --font-size-base: 17px;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(30, 58, 138, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            font-size: var(--font-size-base);
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1560px;
+            padding: clamp(1rem, 2.5vw, 2.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Hlavička */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.25rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .brand-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--accent-blue);
+        }
+
+        .datetime {
+            text-align: right;
+        }
+
+        .time {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            font-weight: 500;
+        }
+
+        /* Mřížka */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-layout {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid-layout {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        /* Karty */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: clamp(1.2rem, 1.8vw, 1.6rem);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            min-height: 250px;
+            box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.1rem;
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            overflow-y: auto;
+            max-height: 380px;
+            padding-right: 2px;
+        }
+
+        .card-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .card-body::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Segmented / Záložky */
+        .pill-badge {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        /* Seznam prvků */
+        .list-item {
+            background-color: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .list-item:hover {
+            background-color: var(--item-hover);
+        }
+
+        .item-main {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            overflow: hidden;
+        }
+
+        .item-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .item-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* SmartThings Grid */
+        .st-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.65rem;
+        }
+
+        .st-btn {
+            background-color: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-md);
+            padding: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .st-btn:hover {
+            background-color: var(--item-hover);
+            color: var(--text-main);
+        }
+
+        .st-btn.active {
+            background-color: var(--active-bg);
+            border-color: var(--active-border);
+            color: var(--accent-blue);
+        }
+
+        .st-dev-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.15);
+            transition: .25s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .25s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-blue);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Poznámky */
+        .notes-textarea {
+            width: 100%;
+            height: 100%;
+            min-height: 180px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: none;
+        }
+
+        /* To-do List */
+        .todo-input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .todo-input {
+            flex: 1;
+            background-color: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 0.9rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .todo-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn-add {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            width: 42px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--item-bg);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 0.9rem;
+        }
+
+        .todo-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            overflow: hidden;
+        }
+
+        .todo-checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--text-muted);
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .todo-checkbox:checked {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .todo-checkbox:checked::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .todo-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .todo-text.done {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .btn-del {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.2rem;
+        }
+
+        .btn-del:hover {
+            color: var(--danger);
+        }
+
+        /* Plovoucí ozubené kolo pro nastavení */
+        .settings-fab {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px var(--accent-glow);
+            cursor: pointer;
+            z-index: 50;
+            transition: transform 0.2s;
+        }
+
+        .settings-fab:hover {
+            transform: scale(1.08);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1rem;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background-color: #121824;
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 480px;
+            padding: 1.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .form-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-sm);
+            padding: 0.7rem 0.9rem;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--item-border);
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background-color: var(--accent-blue);
+            border: none;
+            color: white;
+            border-radius: var(--radius-sm);
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="brand">
-      <div class="dot"></div>
-      <span>COMMAND HUB</span>
+    <div class="dashboard-container">
+        <!-- Hlavička s časem -->
+        <header>
+            <div class="brand">
+                <span class="brand-dot"></span>
+                <span>Command Hub</span>
+            </div>
+            <div class="datetime">
+                <div class="time" id="clock-time">--:--</div>
+                <div class="date" id="clock-date">--.--.----</div>
+            </div>
+        </header>
+
+        <!-- Hlavní grid -->
+        <div class="grid-layout">
+            
+            <!-- Rozvrh hodin -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Rozvrh hodin</span>
+                    <span class="pill-badge" id="schedule-day-badge">Bakaláři</span>
+                </div>
+                <div class="card-body" id="schedule-container">
+                    <div class="list-item">
+                        <div class="item-main">
+                            <span class="item-title">Matematika</span>
+                            <span class="item-subtitle">Učebna 207</span>
+                        </div>
+                        <span class="item-badge">08:00</span>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-main">
+                            <span class="item-title">Technologie</span>
+                            <span class="item-subtitle">Dílny D1</span>
+                        </div>
+                        <span class="item-badge">09:50</span>
+                    </div>
+                    <div class="list-item">
+                        <div class="item-main">
+                            <span class="item-title">Strojírenství</span>
+                            <span class="item-subtitle">Učebna 112 • Teoretická</span>
+                        </div>
+                        <span class="item-badge">11:45</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iCloud Kalendář -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">iCloud Kalendář</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);" id="calendar-status">🔗</span>
+                </div>
+                <div class="card-body" id="calendar-events-container">
+                    <div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">
+                        Vlož odkaz na kalendář v nastavení (ozubené kolo).
+                    </div>
+                </div>
+            </div>
+
+            <!-- SmartThings ovladač -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">SmartThings</span>
+                    <span class="pill-badge">Pokoj</span>
+                </div>
+                <div class="card-body">
+                    <div class="st-grid">
+                        <button class="st-btn active" onclick="this.classList.toggle('active')">
+                            <span>⚡</span> Focus
+                        </button>
+                        <button class="st-btn" onclick="this.classList.toggle('active')">
+                            <span>🎮</span> Gaming
+                        </button>
+                        <button class="st-btn" onclick="this.classList.toggle('active')">
+                            <span>🌙</span> Relax
+                        </button>
+                        <button class="st-btn" onclick="this.classList.toggle('active')">
+                            <span>💪</span> Workout
+                        </button>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.4rem;">
+                        <div class="st-dev-row">
+                            <span style="font-size: 0.9rem; font-weight: 500;">Noční lampa</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-dev-row">
+                            <span style="font-size: 0.9rem; font-weight: 500;">PC & Monitory</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rychlé poznámky -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Rychlá poznámka</span>
+                </div>
+                <div class="card-body">
+                    <textarea class="notes-textarea" id="scratchpad" placeholder="Zapiš myšlenku nebo poznámky..."></textarea>
+                </div>
+            </div>
+
+            <!-- To-Do úkoly -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Úkoly a list</span>
+                    <span class="pill-badge" id="todo-count">0/0</span>
+                </div>
+                <div class="card-body">
+                    <div class="todo-input-group">
+                        <input type="text" class="todo-input" id="todo-new-text" placeholder="Nový úkol...">
+                        <button class="btn-add" id="todo-btn-add">+</button>
+                    </div>
+                    <div id="todo-items-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem;"></div>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div style="text-align: right;">
-      <div id="clock" style="font-weight: 700; font-size: 15px;">--:--</div>
-      <div id="date" style="font-size: 11px; color: #64748b;">--</div>
-    </div>
-  </header>
 
-  <main class="grid">
+    <!-- Plovoucí ozubené kolo -->
+    <button class="settings-fab" id="open-settings-btn" title="Nastavení">⚙</button>
 
-    <!-- 1. Rozvrh hodin -->
-    <div class="card">
-      <div>
-        <div class="card-title">
-          <span>Rozvrh hodin</span>
-          <span style="color: #38bdf8;">Bakaláři</span>
+    <!-- Modal pro nastavení URL kalendáře -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">Nastavení kalendáře</div>
+            <div class="modal-form">
+                <div class="form-group">
+                    <label class="form-label">Veřejný iCloud kalendář (.ics odkaz):</label>
+                    <input type="url" class="form-input" id="calendar-url-input" placeholder="webcal://pXX-caldav.icloud.com/...">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="close-settings-btn">Zrušit</button>
+                <button class="btn-save" id="save-settings-btn">Uložit</button>
+            </div>
         </div>
-        <div id="timetableList">
-          <div class="row">
-            <div><b>Matematika</b><div class="sub">Učebna U2</div></div>
-            <span style="color: #64748b;">08:00</span>
-          </div>
-          <div class="row" style="border-color: #2563eb; background: #13233d;">
-            <div><b style="color: #93c5fd;">Technologie</b><div class="sub" style="color: #60a5fa;">Dílny D1</div></div>
-            <span style="color: #93c5fd;">08:55</span>
-          </div>
-          <div class="row">
-            <div><b>Strojírenství</b><div class="sub">Učebna U7 · Suplování</div></div>
-            <span style="color: #64748b;">10:00</span>
-          </div>
-        </div>
-      </div>
-      <div style="font-size: 12px; color: #64748b; margin-top: 10px; display: flex; justify-content: space-between;">
-        <span>Poslední známka:</span>
-        <b style="color: #e2e8f0;">1 (CAD)</b>
-      </div>
     </div>
 
-    <!-- 2. iCloud Kalendář -->
-    <div class="card">
-      <div>
-        <div class="card-title">
-          <span>iCloud Kalendář</span>
-          <span onclick="fetchAllCalendars()" style="color: #60a5fa; cursor: pointer;"><i class="fa-solid fa-rotate-right"></i></span>
-        </div>
-        <div id="calendarFeedList">
-          <div style="text-align: center; color: #64748b; font-size: 12px; padding: 24px 0;">Načítám události...</div>
-        </div>
-      </div>
-      <div style="font-size: 11px; color: #64748b; text-align: right; margin-top: 10px;" id="calSyncStatus">--</div>
-    </div>
+    <script>
+        // 1. Hodiny a datum
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock-time').textContent = `${hours}:${minutes}`;
 
-    <!-- 3. SmartThings -->
-    <div class="card">
-      <div>
-        <div class="card-title">
-          <span>SmartThings</span>
-          <span style="color: #64748b;">Pokoj</span>
-        </div>
-        <div class="btn-grid">
-          <button class="btn" onclick="toast('Focus mód zapnut')">💡 Focus</button>
-          <button class="btn" onclick="toast('Gaming mód zapnut')">🎮 Gaming</button>
-          <button class="btn" onclick="toast('Večerní režim')">🌙 Večer</button>
-          <button class="btn" onclick="toast('Vše vypnuto')">⚡ Vypnout</button>
-        </div>
-        <div class="row">
-          <span>Stolní lampa</span>
-          <input type="checkbox" checked style="accent-color: #2563eb; width: auto;">
-        </div>
-        <div class="row">
-          <span>PC & Monitory</span>
-          <input type="checkbox" checked style="accent-color: #2563eb; width: auto;">
-        </div>
-      </div>
-      <div id="toast" style="font-size: 11px; color: #38bdf8; text-align: center; height: 14px; margin-top: 6px;"></div>
-    </div>
-
-    <!-- 4. Poznámky -->
-    <div class="card span-2">
-      <div>
-        <div class="card-title">
-          <span>Rychlé poznámky</span>
-          <span id="saveLabel" style="color: #64748b;">Uloženo</span>
-        </div>
-        <textarea id="notesArea" placeholder="Zapiš myšlenku nebo rozměry..."></textarea>
-      </div>
-    </div>
-
-    <!-- 5. Checklist -->
-    <div class="card">
-      <div>
-        <div class="card-title">
-          <span>Checklist</span>
-          <span id="taskCount" style="color: #64748b;">0/0</span>
-        </div>
-        <div style="display:flex; gap:6px; margin-bottom:10px;">
-          <input type="text" id="taskInput" placeholder="Nový úkol...">
-          <button class="add-btn" onclick="addNewTask()">+</button>
-        </div>
-        <div id="taskList"></div>
-      </div>
-    </div>
-
-  </main>
-
-  <button id="settingsFab" class="fab-btn" onclick="openModal()" title="Nastavení">
-    <i class="fa-solid fa-gear"></i>
-  </button>
-
-  <div id="settingsModal" class="modal-backdrop">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 style="font-size: 15px; font-weight: 700; color: #fff;">Nastavení propojení</h3>
-        <span onclick="closeModal()" style="color: #64748b; cursor: pointer; font-size: 18px; padding: 4px;">✕</span>
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">iCloud Kalendář 1 (Domov)</label>
-        <input type="text" id="cfgIcloud1" placeholder="webcal://pXX-caldav.icloud.com/...">
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">iCloud Kalendář 2 (Pracovní / Další)</label>
-        <input type="text" id="cfgIcloud2" placeholder="webcal://pXX-caldav.icloud.com/...">
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">SmartThings Personal Access Token (PAT)</label>
-        <input type="password" id="cfgST" placeholder="Např. a1b2c3d4-xxxx-xxxx...">
-      </div>
-
-      <div class="field-group">
-        <label class="field-label">Bakaláři (Adresa školy)</label>
-        <input type="text" id="cfgBakaUrl" placeholder="https://skola.cz/bakaweb">
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
-        <div>
-          <label class="field-label">Bakaláři Uživatel</label>
-          <input type="text" id="cfgBakaUser" placeholder="Uživatelské jméno">
-        </div>
-        <div>
-          <label class="field-label">Bakaláři Heslo</label>
-          <input type="password" id="cfgBakaPass" placeholder="Heslo">
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn-secondary" onclick="closeModal()">Zrušit</button>
-        <button class="btn-primary" onclick="saveSettings()">Uložit a načíst</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('date').textContent = now.toLocaleDateString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'short' });
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    const notesArea = document.getElementById('notesArea');
-    const saveLabel = document.getElementById('saveLabel');
-    notesArea.value = localStorage.getItem('hub_notes') || '';
-    notesArea.oninput = () => {
-      saveLabel.textContent = 'Ukládám...';
-      localStorage.setItem('hub_notes', notesArea.value);
-      setTimeout(() => { saveLabel.textContent = 'Uloženo'; }, 400);
-    };
-
-    let tasks = JSON.parse(localStorage.getItem('hub_tasks')) || [
-      { t: 'Sbalit věci do školy', d: false },
-      { t: 'Příprava na zítřek', d: true }
-    ];
-
-    function renderTaskList() {
-      const container = document.getElementById('taskList');
-      container.innerHTML = '';
-      let done = 0;
-      tasks.forEach((item, idx) => {
-        if (item.d) done++;
-        const el = document.createElement('div');
-        el.className = 'row';
-        el.style.padding = '8px 10px';
-        el.innerHTML = `
-          <label style="display:flex; align-items:center; gap:8px; cursor:pointer; text-decoration: ${item.d ? 'line-through' : 'none'}; color: ${item.d ? '#64748b' : '#e2e8f0'};">
-            <input type="checkbox" ${item.d ? 'checked' : ''} onchange="toggleT(${idx})" style="accent-color: #2563eb; width: auto;">
-            <span>${item.t}</span>
-          </label>
-          <span onclick="delT(${idx})" style="color:#64748b; cursor:pointer; font-weight:bold;">×</span>
-        `;
-        container.appendChild(el);
-      });
-      document.getElementById('taskCount').textContent = `${done}/${tasks.length}`;
-      localStorage.setItem('hub_tasks', JSON.stringify(tasks));
-    }
-
-    function addNewTask() {
-      const inp = document.getElementById('taskInput');
-      if (inp.value.trim()) {
-        tasks.push({ t: inp.value.trim(), d: false });
-        inp.value = '';
-        renderTaskList();
-      }
-    }
-    function toggleT(i) { tasks[i].d = !tasks[i].d; renderTaskList(); }
-    function delT(i) { tasks.splice(i, 1); renderTaskList(); }
-    renderTaskList();
-
-    function toast(txt) {
-      const el = document.getElementById('toast');
-      el.textContent = txt;
-      setTimeout(() => { el.textContent = ''; }, 2000);
-    }
-
-    async function safeFetch(url, timeoutMs = 8000) {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), timeoutMs);
-      try {
-        const response = await fetch(url, { signal: controller.signal });
-        clearTimeout(id);
-        return response;
-      } catch (err) {
-        clearTimeout(id);
-        return null;
-      }
-    }
-
-    async function downloadICS(rawUrl) {
-      if (!rawUrl || rawUrl.trim().length === 0) return null;
-      let url = rawUrl.trim();
-      if (url.startsWith('webcal://')) {
-        url = 'https://' + url.substring(9);
-      }
-
-      const proxies = [
-        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-        `https://corsproxy.io/?${encodeURIComponent(url)}`
-      ];
-
-      for (const p of proxies) {
-        try {
-          const res = await safeFetch(p, 6000);
-          if (res && res.ok) {
-            const txt = await res.text();
-            if (txt && txt.includes('BEGIN:VCALENDAR')) return txt;
-          }
-        } catch (e) {}
-      }
-      return null;
-    }
-
-    // Parsování s detekcí lokace, popisu a podrobných časů
-    function parseEventsFromICS(icsContent) {
-      if (!icsContent) return [];
-      const events = [];
-      const blocks = icsContent.split('BEGIN:VEVENT');
-      
-      const now = new Date();
-      const todayFloor = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-      const limitAhead = new Date(todayFloor.getTime() + 14 * 24 * 60 * 60 * 1000);
-
-      for (let i = 1; i < blocks.length; i++) {
-        const item = blocks[i].split('END:VEVENT')[0];
-        
-        const summaryMatch = item.match(/SUMMARY.*?:(.*?)(\r\n|\n|\r)/);
-        if (!summaryMatch) continue;
-        const title = summaryMatch[1].trim();
-
-        const dtMatch = item.match(/DTSTART.*?:([0-9TZ]+)/);
-        if (!dtMatch) continue;
-        const rawDate = dtMatch[1].trim();
-
-        // Extrakce volitelné lokace
-        const locMatch = item.match(/LOCATION.*?:(.*?)(\r\n|\n|\r)/);
-        const location = locMatch ? locMatch[1].trim().replace(/\\,/g, ',') : '';
-
-        // Extrakce volitelného URL odkazu
-        const urlMatch = item.match(/URL.*?:(.*?)(\r\n|\n|\r)/);
-        const eventUrl = urlMatch ? urlMatch[1].trim() : 'https://www.icloud.com/calendar/';
-
-        let dateObj = null;
-        let isAllDay = true;
-        let hours = 0, mins = 0;
-
-        if (rawDate.length >= 8) {
-          const y = parseInt(rawDate.substr(0, 4), 10);
-          const m = parseInt(rawDate.substr(4, 2), 10) - 1;
-          const d = parseInt(rawDate.substr(6, 2), 10);
-
-          if (rawDate.includes('T')) {
-            isAllDay = false;
-            const tPart = rawDate.split('T')[1];
-            hours = parseInt(tPart.substr(0, 2), 10);
-            mins = parseInt(tPart.substr(2, 2), 10);
-          }
-
-          if (rawDate.endsWith('Z')) {
-            dateObj = new Date(Date.UTC(y, m, d, hours, mins));
-          } else {
-            dateObj = new Date(y, m, d, hours, mins);
-          }
+            const days = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
+            const dayName = days[now.getDay()];
+            const dateStr = `${now.getDate()}. ${now.getMonth() + 1}. ${now.getFullYear()}`;
+            document.getElementById('clock-date').textContent = `${dayName}, ${dateStr}`;
         }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        if (!dateObj) continue;
-
-        const isRecurring = item.includes('RRULE:');
-        const eventInstances = [];
-
-        if (isRecurring) {
-          let cursor = new Date(dateObj);
-          while (cursor < todayFloor) {
-            cursor.setDate(cursor.getDate() + 7);
-          }
-          while (cursor <= limitAhead) {
-            eventInstances.push(new Date(cursor));
-            cursor.setDate(cursor.getDate() + 7);
-          }
-        } else {
-          eventInstances.push(dateObj);
-        }
-
-        eventInstances.forEach(inst => {
-          if (inst >= todayFloor && inst <= limitAhead) {
-            const isToday = inst.toDateString() === now.toDateString();
-            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-            const isTomorrow = inst.toDateString() === tomorrow.toDateString();
-
-            let dayLabel = inst.toLocaleDateString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'numeric' });
-            if (isToday) dayLabel = 'Dnes';
-            else if (isTomorrow) dayLabel = 'Zítra';
-
-            const timeLabel = isAllDay ? 'Celý den' : inst.toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
-
-            events.push({
-              title,
-              timeLabel,
-              dayLabel,
-              isToday,
-              isAllDay,
-              location,
-              url: eventUrl,
-              date: inst
-            });
-          }
+        // 2. Poznámky (Persistence do LocalStorage)
+        const scratchpad = document.getElementById('scratchpad');
+        scratchpad.value = localStorage.getItem('hub_notes') || '';
+        scratchpad.addEventListener('input', (e) => {
+            localStorage.setItem('hub_notes', e.target.value);
         });
-      }
-      return events;
-    }
 
-    // Vykreslení s rozdělením na DNES a DALŠÍ DNY
-    async function fetchAllCalendars() {
-      const url1 = localStorage.getItem('cfg_icloud1') || localStorage.getItem('cfg_icloud');
-      const url2 = localStorage.getItem('cfg_icloud2');
-      const box = document.getElementById('calendarFeedList');
-      const status = document.getElementById('calSyncStatus');
+        // 3. To-Do Úkoly
+        let tasks = JSON.parse(localStorage.getItem('hub_tasks') || '[]');
 
-      if (!url1 && !url2) {
-        box.innerHTML = '<div style="text-align: center; color: #64748b; font-size: 12px; padding: 20px 0;">Vlož odkaz na kalendář v nastavení (kolečko vpravo dole).</div>';
-        status.textContent = 'Nenastaveno';
-        return;
-      }
+        function saveAndRenderTasks() {
+            localStorage.setItem('hub_tasks', JSON.stringify(tasks));
+            const listEl = document.getElementById('todo-items-list');
+            listEl.innerHTML = '';
 
-      box.innerHTML = '<div style="text-align: center; color: #64748b; font-size: 12px; padding: 20px 0;">Stahuji události...</div>';
+            let doneCount = 0;
+            tasks.forEach((t, i) => {
+                if (t.done) doneCount++;
+                const item = document.createElement('div');
+                item.className = 'todo-item';
+                item.innerHTML = `
+                    <div class="todo-left">
+                        <input type="checkbox" class="todo-checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${i})">
+                        <span class="todo-text ${t.done ? 'done' : ''}">${escapeHtml(t.text)}</span>
+                    </div>
+                    <button class="btn-del" onclick="deleteTask(${i})">✕</button>
+                `;
+                listEl.appendChild(item);
+            });
 
-      const promises = [];
-      if (url1) promises.push(downloadICS(url1)); else promises.push(Promise.resolve(null));
-      if (url2) promises.push(downloadICS(url2)); else promises.push(Promise.resolve(null));
+            document.getElementById('todo-count').textContent = `${doneCount}/${tasks.length}`;
+        }
 
-      const [ics1, ics2] = await Promise.all(promises);
+        window.toggleTask = function(index) {
+            tasks[index].done = !tasks[index].done;
+            saveAndRenderTasks();
+        };
 
-      if (!ics1 && !ics2) {
-        box.innerHTML = '<div style="text-align: center; color: #f87171; font-size: 12px; padding: 20px 0;">Chyba spojení s iCloudem. Zkontroluj odkaz.</div>';
-        status.textContent = 'Chyba';
-        return;
-      }
+        window.deleteTask = function(index) {
+            tasks.splice(index, 1);
+            saveAndRenderTasks();
+        };
 
-      const events1 = parseEventsFromICS(ics1);
-      const events2 = parseEventsFromICS(ics2);
+        document.getElementById('todo-btn-add').addEventListener('click', addTask);
+        document.getElementById('todo-new-text').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
+        });
 
-      const allEvents = [...events1, ...events2].sort((a, b) => a.date - b.date);
+        function addTask() {
+            const input = document.getElementById('todo-new-text');
+            const val = input.value.trim();
+            if (val) {
+                tasks.push({ text: val, done: false });
+                input.value = '';
+                saveAndRenderTasks();
+            }
+        }
+        saveAndRenderTasks();
 
-      if (allEvents.length === 0) {
-        box.innerHTML = '<div style="text-align: center; color: #64748b; font-size: 12px; padding: 20px 0;">Žádné nadcházející akce.</div>';
-        status.textContent = 'Synchronizováno';
-        return;
-      }
+        // 4. Modal Nastavení
+        const modal = document.getElementById('settings-modal');
+        const calInput = document.getElementById('calendar-url-input');
 
-      // Rozdělení na Dnes a Další dny
-      const todayEvents = allEvents.filter(e => e.isToday);
-      const futureEvents = allEvents.filter(e => !e.isToday);
+        document.getElementById('open-settings-btn').addEventListener('click', () => {
+            calInput.value = localStorage.getItem('hub_ics_url') || '';
+            modal.classList.add('open');
+        });
 
-      let html = '';
+        document.getElementById('close-settings-btn').addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
 
-      // Sekce DNES
-      if (todayEvents.length > 0) {
-        html += `<div class="event-section-label"><i class="fa-solid fa-clock"></i> Dnes</div>`;
-        html += todayEvents.map(e => `
-          <a href="${e.url}" target="_blank" class="event-row today" title="Kliknutím otevřít v kalendáři">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <b style="color: #93c5fd; font-size:13px;">${e.title}</b>
-              <span style="color:#60a5fa; font-weight:700; font-size:12px;">${e.timeLabel}</span>
-            </div>
-            ${e.location ? `<div class="sub" style="color:#93c5fd/70;"><i class="fa-solid fa-location-dot" style="font-size:10px; margin-right:3px;"></i>${e.location}</div>` : ''}
-          </a>
-        `).join('');
-      } else {
-        html += `<div class="event-section-label"><i class="fa-solid fa-clock"></i> Dnes</div>`;
-        html += `<div class="sub" style="padding: 4px 6px 10px 4px; color:#64748b;">Dnes nemáš žádné další události.</div>`;
-      }
+        document.getElementById('save-settings-btn').addEventListener('click', () => {
+            let url = calInput.value.trim();
+            if (url.startsWith('webcal://')) {
+                url = 'https://' + url.substring(9);
+            }
+            localStorage.setItem('hub_ics_url', url);
+            modal.classList.remove('open');
+            loadCalendar();
+        });
 
-      // Sekce DALŠÍ DNY
-      if (futureEvents.length > 0) {
-        html += `<div class="event-section-label upcoming"><i class="fa-regular fa-calendar-days"></i> Nadcházející dny</div>`;
-        html += futureEvents.slice(0, 5).map(e => `
-          <a href="${e.url}" target="_blank" class="event-row" title="Kliknutím otevřít v kalendáři">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <b>${e.title}</b>
-              <span style="color:#64748b; font-size:11px;">${e.dayLabel} · ${e.timeLabel}</span>
-            </div>
-            ${e.location ? `<div class="sub"><i class="fa-solid fa-location-dot" style="font-size:10px; margin-right:3px;"></i>${e.location}</div>` : ''}
-          </a>
-        `).join('');
-      }
+        // 5. Načítání a parsování kalendáře
+        async function loadCalendar() {
+            const url = localStorage.getItem('hub_ics_url');
+            const container = document.getElementById('calendar-events-container');
+            const status = document.getElementById('calendar-status');
 
-      box.innerHTML = html;
-      status.textContent = 'Synchronizováno ' + new Date().toLocaleTimeString('cs-CZ', { hour: '2-digit', minute: '2-digit' });
-    }
+            if (!url) {
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">Vlož odkaz na kalendář v nastavení (ozubené kolo).</div>';
+                return;
+            }
 
-    function openModal() {
-      document.getElementById('cfgIcloud1').value = localStorage.getItem('cfg_icloud1') || localStorage.getItem('cfg_icloud') || '';
-      document.getElementById('cfgIcloud2').value = localStorage.getItem('cfg_icloud2') || '';
-      document.getElementById('cfgST').value = localStorage.getItem('cfg_st') || '';
-      document.getElementById('cfgBakaUrl').value = localStorage.getItem('cfg_baka_url') || '';
-      document.getElementById('cfgBakaUser').value = localStorage.getItem('cfg_baka_user') || '';
-      document.getElementById('cfgBakaPass').value = localStorage.getItem('cfg_baka_pass') || '';
-      document.getElementById('settingsModal').classList.add('active');
-    }
+            status.textContent = '⏳';
+            try {
+                // Přístup přes proxy k obejití CORS omezení v prohlížeči
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                const res = await fetch(proxyUrl);
+                if (!res.ok) throw new Error('Chyba stahování');
+                const text = await res.text();
+                parseICS(text);
+                status.textContent = '●';
+            } catch (err) {
+                console.error(err);
+                status.textContent = '✕';
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">Kalendář se nepodařilo synchronizovat. Zkontroluj odkaz.</div>';
+            }
+        }
 
-    function closeModal() {
-      document.getElementById('settingsModal').classList.remove('active');
-    }
+        function parseICS(icsData) {
+            const lines = icsData.split(/\r\n|\n|\r/);
+            const events = [];
+            let inEvent = false;
+            let current = {};
 
-    function saveSettings() {
-      const u1 = document.getElementById('cfgIcloud1').value.trim();
-      const u2 = document.getElementById('cfgIcloud2').value.trim();
-      localStorage.setItem('cfg_icloud1', u1);
-      localStorage.setItem('cfg_icloud', u1);
-      localStorage.setItem('cfg_icloud2', u2);
-      localStorage.setItem('cfg_st', document.getElementById('cfgST').value.trim());
-      localStorage.setItem('cfg_bakaUrl', document.getElementById('cfgBakaUrl').value.trim());
-      localStorage.setItem('cfg_bakaUser', document.getElementById('cfgBakaUser').value.trim());
-      localStorage.setItem('cfg_bakaPass', document.getElementById('cfgBakaPass').value.trim());
-      closeModal();
-      toast('Nastavení uloženo');
-      fetchAllCalendars();
-    }
+            for (let line of lines) {
+                if (line.startsWith('BEGIN:VEVENT')) {
+                    inEvent = true;
+                    current = {};
+                } else if (line.startsWith('END:VEVENT')) {
+                    inEvent = false;
+                    if (current.summary && current.dtstart) {
+                        events.push(current);
+                    }
+                } else if (inEvent) {
+                    if (line.startsWith('SUMMARY:')) {
+                        current.summary = line.substring(8);
+                    } else if (line.startsWith('DTSTART')) {
+                        const val = line.split(':')[1];
+                        current.dtstart = val;
+                    }
+                }
+            }
 
-    fetchAllCalendars();
-  </script>
+            renderEvents(events);
+        }
+
+        function renderEvents(events) {
+            const container = document.getElementById('calendar-events-container');
+            container.innerHTML = '';
+
+            if (events.length === 0) {
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">Žádné nadcházející události.</div>';
+                return;
+            }
+
+            events.slice(0, 5).forEach(ev => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                
+                let dateFormatted = '';
+                if (ev.dtstart && ev.dtstart.length >= 8) {
+                    const y = ev.dtstart.substring(0, 4);
+                    const m = ev.dtstart.substring(4, 6);
+                    const d = ev.dtstart.substring(6, 8);
+                    dateFormatted = `${d}.${m}.`;
+                }
+
+                item.innerHTML = `
+                    <div class="item-main">
+                        <span class="item-title">${escapeHtml(ev.summary || 'Událost')}</span>
+                        <span class="item-subtitle">${dateFormatted ? 'Termín: ' + dateFormatted : ''}</span>
+                    </div>
+                    <span class="item-badge">${dateFormatted}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadCalendar();
+    </script>
 </body>
 </html>
