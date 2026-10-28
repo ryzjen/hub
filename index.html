@@ -6,11 +6,11 @@
     <title>COMMAND HUB</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0b0f17;
-            --card-bg: rgba(22, 28, 41, 0.72);
+            --card-bg: rgba(22, 28, 41, 0.75);
             --card-border: rgba(255, 255, 255, 0.08);
             --text-main: #f3f4f6;
             --text-muted: #94a3b8;
@@ -22,8 +22,8 @@
             --item-border: rgba(255, 255, 255, 0.05);
             --active-bg: rgba(59, 130, 246, 0.15);
             --active-border: rgba(59, 130, 246, 0.4);
-            --radius-lg: 16px;
-            --radius-md: 11px;
+            --radius-lg: 18px;
+            --radius-md: 12px;
             --radius-sm: 8px;
             --font-size-base: 14px;
         }
@@ -55,7 +55,7 @@
             padding: clamp(1rem, 2vw, 2.2rem);
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1.2rem;
         }
 
         /* Hlavička */
@@ -85,22 +85,30 @@
             box-shadow: 0 0 10px var(--accent-blue);
         }
 
-        .datetime {
-            text-align: right;
+        .nav-desktop {
+            display: flex;
+            gap: 0.4rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.3rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--card-border);
         }
 
-        .time {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-
-        .date {
-            font-size: 0.8rem;
+        .nav-btn-pc {
+            background: transparent;
+            border: none;
             color: var(--text-muted);
-            margin-top: 0.2rem;
-            font-weight: 500;
+            padding: 0.45rem 0.9rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn-pc.active {
+            background: var(--accent-blue);
+            color: #fff;
         }
 
         /* Karty */
@@ -113,7 +121,6 @@
             -webkit-backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
-            min-height: 240px;
             box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.45);
         }
 
@@ -141,16 +148,6 @@
             flex-direction: column;
             gap: 0.65rem;
             overflow-y: auto;
-            max-height: 340px;
-            padding-right: 2px;
-        }
-
-        .card-body::-webkit-scrollbar {
-            width: 4px;
-        }
-        .card-body::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
         }
 
         .pill-badge {
@@ -172,10 +169,6 @@
             justify-content: space-between;
             align-items: center;
             transition: all 0.2s ease;
-        }
-
-        .list-item:hover {
-            background-color: var(--item-hover);
         }
 
         .item-main {
@@ -206,7 +199,102 @@
             white-space: nowrap;
         }
 
-        /* SmartThings */
+        /* HOME SCREEN SPECIFIKA */
+        .home-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, rgba(22, 28, 41, 0.4) 100%);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .home-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            display: flex;
+            align-items: baseline;
+            gap: 0.25rem;
+        }
+
+        .home-seconds {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .home-date {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        /* GEMINI AI WIDGET */
+        .gemini-box {
+            background-color: var(--item-bg);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: var(--radius-md);
+            padding: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+        }
+
+        .gemini-input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .gemini-input {
+            flex: 1;
+            background-color: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--item-border);
+            border-radius: var(--radius-sm);
+            padding: 0.65rem 0.85rem;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .gemini-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .gemini-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 0 1rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .gemini-response {
+            font-size: 0.82rem;
+            color: #d1d5db;
+            line-height: 1.5;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            max-height: 140px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        /* SmartThings Přepínače */
         .st-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -226,11 +314,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-        }
-
-        .st-btn:hover {
-            background-color: var(--item-hover);
-            color: var(--text-main);
         }
 
         .st-btn.active {
@@ -291,7 +374,6 @@
             transform: translateX(18px);
         }
 
-        /* Poznámky */
         .notes-textarea {
             width: 100%;
             height: 100%;
@@ -305,7 +387,6 @@
             resize: none;
         }
 
-        /* To-Do */
         .todo-input-group {
             display: flex;
             gap: 0.45rem;
@@ -321,10 +402,6 @@
             color: var(--text-main);
             font-size: 0.85rem;
             outline: none;
-        }
-
-        .todo-input:focus {
-            border-color: var(--accent-blue);
         }
 
         .btn-add {
@@ -402,11 +479,6 @@
             padding: 0.2rem;
         }
 
-        .btn-del:hover {
-            color: var(--danger);
-        }
-
-        /* Plovoucí nastavení */
         .settings-fab {
             position: fixed;
             bottom: 1.25rem;
@@ -424,62 +496,47 @@
             box-shadow: 0 4px 14px var(--accent-glow);
             cursor: pointer;
             z-index: 50;
-            transition: transform 0.2s;
         }
 
-        /* Spodní mobilní navigace (skrytá na tabletu a PC) */
         .mobile-nav {
             display: none;
         }
 
-        /* --- MOBILNÍ ROZHRANÍ (do 650px) --- */
-        @media (max-width: 650px) {
+        /* --- MOBILNÍ STYLOVÁNÍ --- */
+        @media (max-width: 680px) {
             body {
-                padding-bottom: 75px; /* rezerva pro spodní dock */
+                padding-bottom: 80px;
+            }
+            .nav-desktop {
+                display: none;
             }
             .dashboard-container {
                 padding: 0.85rem;
                 gap: 0.85rem;
             }
-            .time {
-                font-size: 1.3rem;
+            .tab-view {
+                display: none;
             }
-            .grid-layout {
+            .tab-view.active {
                 display: flex;
                 flex-direction: column;
-                gap: 0;
-            }
-            /* Skryje neaktivní panely na mobilu */
-            .grid-layout > .card {
-                display: none;
-                min-height: auto;
-                height: calc(100vh - 165px);
-            }
-            .grid-layout > .card.mobile-active {
-                display: flex;
-            }
-            .card-body {
-                max-height: none;
-            }
-            .notes-textarea {
-                min-height: 250px;
+                gap: 0.9rem;
             }
             .settings-fab {
-                bottom: 70px;
+                bottom: 72px;
                 right: 1rem;
                 width: 38px;
                 height: 38px;
                 font-size: 1rem;
             }
-            /* Spodní dock */
             .mobile-nav {
                 display: flex;
                 position: fixed;
                 bottom: 0;
                 left: 0;
                 right: 0;
-                height: 60px;
-                background-color: rgba(15, 20, 31, 0.94);
+                height: 64px;
+                background-color: rgba(11, 15, 23, 0.95);
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
                 border-top: 1px solid var(--card-border);
@@ -492,61 +549,48 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 0.2rem;
+                gap: 0.15rem;
                 background: none;
                 border: none;
                 color: var(--text-muted);
-                font-size: 0.7rem;
+                font-size: 0.68rem;
                 font-weight: 600;
                 cursor: pointer;
                 padding: 0.4rem;
-                width: 25%;
+                width: 20%;
             }
             .nav-item span.icon {
-                font-size: 1.15rem;
+                font-size: 1.2rem;
             }
             .nav-item.active {
                 color: var(--accent-blue);
             }
+            .nav-item.home-icon span.icon {
+                font-size: 1.4rem;
+            }
         }
 
-        /* --- IPAD & TABLETY (651px až 1199px) --- */
-        @media (min-width: 651px) and (max-width: 1199px) {
-            :root {
-                --font-size-base: 13.5px;
-                --radius-lg: 14px;
-                --radius-md: 10px;
+        /* --- TABLET A PC STYLOVÁNÍ --- */
+        @media (min-width: 681px) {
+            .tab-view {
+                display: none;
             }
-            .dashboard-container {
-                padding: 1rem;
-                gap: 1rem;
-            }
-            .grid-layout {
+            .tab-view.active {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                gap: 0.9rem;
+                gap: 1.1rem;
             }
-            .card {
-                padding: 1rem;
-                min-height: 210px;
-            }
-            .card-body {
-                max-height: 290px;
-            }
-            .time {
-                font-size: 1.35rem;
+            #view-home.active {
+                display: flex;
+                flex-direction: column;
+                max-width: 900px;
+                margin: 0 auto;
+                width: 100%;
             }
         }
 
-        /* --- PC A VELKÉ MONITORY (od 1200px) --- */
         @media (min-width: 1200px) {
-            :root {
-                --font-size-base: 15.5px;
-                --radius-lg: 18px;
-                --radius-md: 12px;
-            }
-            .grid-layout {
-                display: grid;
+            #view-hub.active {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 1.4rem;
             }
@@ -651,20 +695,96 @@
                 <span class="brand-dot"></span>
                 <span>Command Hub</span>
             </div>
-            <div class="datetime">
-                <div class="time" id="clock-time">--:--</div>
-                <div class="date" id="clock-date">--.--.----</div>
+            
+            <!-- Přepínač pohledů pro PC a tablety -->
+            <div class="nav-desktop">
+                <button class="nav-btn-pc active" onclick="switchGlobalView('view-home', this)">Home</button>
+                <button class="nav-btn-pc" onclick="switchGlobalView('view-hub', this)">Celý Hub</button>
             </div>
         </header>
 
-        <!-- Hlavní grid -->
-        <div class="grid-layout">
+        <!-- 1. VÝCHOZÍ HOME SCREEN (Vždy startuje zde) -->
+        <div class="tab-view active" id="view-home">
+            
+            <!-- Velké hodiny s vteřinami -->
+            <div class="home-hero">
+                <div class="home-time">
+                    <span id="home-hours-min">--:--</span>
+                    <span class="home-seconds" id="home-sec">:00</span>
+                </div>
+                <div class="home-date" id="home-full-date">Načítám datum...</div>
+            </div>
+
+            <!-- Gemini AI rychlá odpověď -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">✨ Gemini AI • Rychlá odpověď</span>
+                    <span class="pill-badge">Online</span>
+                </div>
+                <div class="gemini-box">
+                    <div class="gemini-input-row">
+                        <input type="text" class="gemini-input" id="gemini-query" placeholder="Zeptej se na cokoliv...">
+                        <button class="gemini-btn" id="gemini-submit">Odeslat</button>
+                    </div>
+                    <div class="gemini-response" id="gemini-output"></div>
+                </div>
+            </div>
+
+            <!-- Nejnovější / Nejaktuálnější z hubu -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Přehled právě teď</span>
+                    <span class="pill-badge">Live</span>
+                </div>
+                <div class="card-body">
+                    <!-- Nejbližší hodina -->
+                    <div class="list-item">
+                        <div class="item-main">
+                            <span class="item-title" id="home-next-class">Matematika (Dílny / Třída)</span>
+                            <span class="item-subtitle">Rozvrh • Další vyučovací hodina</span>
+                        </div>
+                        <span class="item-badge" id="home-class-time">08:00</span>
+                    </div>
+
+                    <!-- Nejbližší událost z kalendáře -->
+                    <div class="list-item">
+                        <div class="item-main">
+                            <span class="item-title" id="home-next-event">Žádná událost v kalendáři</span>
+                            <span class="item-subtitle">iCloud Kalendář</span>
+                        </div>
+                        <span class="item-badge" id="home-event-date">--</span>
+                    </div>
+
+                    <!-- Hlavní úkol -->
+                    <div class="list-item">
+                        <div class="item-main">
+                            <span class="item-title" id="home-next-task">Všechny úkoly hotové</span>
+                            <span class="item-subtitle">To-Do List</span>
+                        </div>
+                        <span class="item-badge" id="home-tasks-status">0 zbývá</span>
+                    </div>
+
+                    <!-- Rychlé SmartThings -->
+                    <div class="st-dev-row" style="margin-top: 0.2rem;">
+                        <span style="font-size: 0.85rem; font-weight: 500;">Noční lampa (Pokoj)</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="home-lamp-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 2. CELÝ HUB / JEDNOTLIVÉ ZÁLOŽKY -->
+        <div class="tab-view" id="view-hub">
             
             <!-- Rozvrh hodin -->
-            <div class="card mobile-active" id="tab-school">
+            <div class="card" id="card-school">
                 <div class="card-header">
                     <span class="card-title">Rozvrh hodin</span>
-                    <span class="pill-badge" id="schedule-day-badge">Bakaláři</span>
+                    <span class="pill-badge">Bakaláři</span>
                 </div>
                 <div class="card-body" id="schedule-container">
                     <div class="list-item">
@@ -692,20 +812,20 @@
             </div>
 
             <!-- iCloud Kalendář -->
-            <div class="card" id="tab-calendar">
+            <div class="card" id="card-calendar">
                 <div class="card-header">
                     <span class="card-title">iCloud Kalendář</span>
                     <span style="font-size: 0.75rem; color: var(--text-muted);" id="calendar-status">🔗</span>
                 </div>
                 <div class="card-body" id="calendar-events-container">
                     <div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">
-                        Vlož odkaz na kalendář v nastavení (ozubené kolo).
+                        Vlož odkaz na kalendář v nastavení.
                     </div>
                 </div>
             </div>
 
             <!-- SmartThings -->
-            <div class="card" id="tab-home">
+            <div class="card" id="card-home">
                 <div class="card-header">
                     <span class="card-title">SmartThings</span>
                     <span class="pill-badge">Pokoj</span>
@@ -730,7 +850,7 @@
                         <div class="st-dev-row">
                             <span style="font-size: 0.85rem; font-weight: 500;">Noční lampa</span>
                             <label class="toggle-switch">
-                                <input type="checkbox" checked>
+                                <input type="checkbox" id="sub-lamp-toggle" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -746,7 +866,7 @@
             </div>
 
             <!-- To-Do úkoly & Poznámka -->
-            <div class="card" id="tab-tasks">
+            <div class="card" id="card-tasks">
                 <div class="card-header">
                     <span class="card-title">Úkoly a list</span>
                     <span class="pill-badge" id="todo-count">0/0</span>
@@ -768,37 +888,46 @@
         </div>
     </div>
 
-    <!-- Mobilní navigační panel (zobrazí se pouze na telefonu) -->
+    <!-- Mobilní navigace s centrálním Home Screenem -->
     <nav class="mobile-nav">
-        <button class="nav-item active" onclick="switchMobileTab('tab-school', this)">
+        <button class="nav-item" onclick="switchMobileTab('card-school', this)">
             <span class="icon">🏫</span>
             <span>Škola</span>
         </button>
-        <button class="nav-item" onclick="switchMobileTab('tab-calendar', this)">
+        <button class="nav-item" onclick="switchMobileTab('card-calendar', this)">
             <span class="icon">📅</span>
             <span>Kalendář</span>
         </button>
-        <button class="nav-item" onclick="switchMobileTab('tab-home', this)">
+        <button class="nav-item home-icon active" onclick="switchMobileTab('view-home', this)">
+            <span class="icon">⌂</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('card-home', this)">
             <span class="icon">⚡</span>
             <span>Pokoj</span>
         </button>
-        <button class="nav-item" onclick="switchMobileTab('tab-tasks', this)">
+        <button class="nav-item" onclick="switchMobileTab('card-tasks', this)">
             <span class="icon">📝</span>
             <span>Úkoly</span>
         </button>
     </nav>
 
-    <!-- Plovoucí ozubené kolo -->
+    <!-- Plovoucí nastavení -->
     <button class="settings-fab" id="open-settings-btn" title="Nastavení">⚙</button>
 
-    <!-- Modal pro nastavení kalendáře -->
+    <!-- Modal pro nastavení URL kalendáře & Gemini API -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal-box">
-            <div class="modal-title">Nastavení kalendáře</div>
+            <div class="modal-title">Nastavení Hubu</div>
             <div class="modal-form">
                 <div class="form-group">
-                    <label class="form-label">Veřejný iCloud kalendář (.ics odkaz):</label>
+                    <label class="form-label">Veřejný iCloud kalendář (.ics):</label>
                     <input type="url" class="form-input" id="calendar-url-input" placeholder="webcal://pXX-caldav.icloud.com/...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Google Gemini API klíč (zdarma):</label>
+                    <input type="password" class="form-input" id="gemini-key-input" placeholder="AIzaSy...">
+                    <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Klíč získáš na aistudio.google.com</span>
                 </div>
             </div>
             <div class="modal-actions">
@@ -809,36 +938,60 @@
     </div>
 
     <script>
-        // Přepínání záložek na telefonu
-        function switchMobileTab(cardId, btn) {
-            document.querySelectorAll('.grid-layout > .card').forEach(c => c.classList.remove('mobile-active'));
-            document.querySelectorAll('.mobile-nav .nav-item').forEach(b => b.classList.remove('active'));
-            
-            const target = document.getElementById(cardId);
-            if (target) target.classList.add('mobile-active');
-            if (btn) btn.classList.add('active');
-        }
-
+        // 1. Hodiny s vteřinami pro Home Screen
         function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('clock-time').textContent = `${hours}:${minutes}`;
+            const seconds = String(now.getSeconds()).padStart(2, '0');
 
-            const days = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
+            document.getElementById('home-hours-min').textContent = `${hours}:${minutes}`;
+            document.getElementById('home-sec').textContent = `:${seconds}`;
+
+            const days = ['neděle', 'pondělí', 'úterý', 'středa', 'čtvrtek', 'pátek', 'sobota'];
             const dayName = days[now.getDay()];
             const dateStr = `${now.getDate()}. ${now.getMonth() + 1}. ${now.getFullYear()}`;
-            document.getElementById('clock-date').textContent = `${dayName}, ${dateStr}`;
+            document.getElementById('home-full-date').textContent = `${dayName}, ${dateStr}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
+        // 2. Navigace
+        function switchGlobalView(viewId, btn) {
+            document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn-pc').forEach(b => b.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            if (btn) btn.classList.add('active');
+        }
+
+        function switchMobileTab(targetId, btn) {
+            document.querySelectorAll('.mobile-nav .nav-item').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            if (targetId === 'view-home') {
+                document.getElementById('view-hub').classList.remove('active');
+                document.getElementById('view-home').classList.add('active');
+            } else {
+                document.getElementById('view-home').classList.remove('active');
+                document.getElementById('view-hub').classList.add('active');
+                document.querySelectorAll('#view-hub .card').forEach(c => {
+                    c.style.display = (c.id === targetId) ? 'flex' : 'none';
+                });
+            }
+        }
+
+        // 3. Propojení přepínačů světla (Home a Hub)
+        const homeLamp = document.getElementById('home-lamp-toggle');
+        const subLamp = document.getElementById('sub-lamp-toggle');
+        homeLamp.addEventListener('change', () => subLamp.checked = homeLamp.checked);
+        subLamp.addEventListener('change', () => homeLamp.checked = subLamp.checked);
+
+        // 4. Poznámky
         const scratchpad = document.getElementById('scratchpad');
         scratchpad.value = localStorage.getItem('hub_notes') || '';
-        scratchpad.addEventListener('input', (e) => {
-            localStorage.setItem('hub_notes', e.target.value);
-        });
+        scratchpad.addEventListener('input', (e) => localStorage.setItem('hub_notes', e.target.value));
 
+        // 5. To-Do Úkoly a aktualizace Home Screenu
         let tasks = JSON.parse(localStorage.getItem('hub_tasks') || '[]');
 
         function saveAndRenderTasks() {
@@ -847,8 +1000,15 @@
             listEl.innerHTML = '';
 
             let doneCount = 0;
+            let firstPending = null;
+
             tasks.forEach((t, i) => {
-                if (t.done) doneCount++;
+                if (t.done) {
+                    doneCount++;
+                } else if (!firstPending) {
+                    firstPending = t.text;
+                }
+
                 const item = document.createElement('div');
                 item.className = 'todo-item';
                 item.innerHTML = `
@@ -862,6 +1022,11 @@
             });
 
             document.getElementById('todo-count').textContent = `${doneCount}/${tasks.length}`;
+
+            // Update Home widgetu
+            const pendingTotal = tasks.length - doneCount;
+            document.getElementById('home-next-task').textContent = firstPending || 'Vše hotovo!';
+            document.getElementById('home-tasks-status').textContent = `${pendingTotal} zbývá`;
         }
 
         window.toggleTask = function(index) {
@@ -890,35 +1055,36 @@
         }
         saveAndRenderTasks();
 
+        // 6. Nastavení Modal
         const modal = document.getElementById('settings-modal');
         const calInput = document.getElementById('calendar-url-input');
+        const geminiInput = document.getElementById('gemini-key-input');
 
         document.getElementById('open-settings-btn').addEventListener('click', () => {
             calInput.value = localStorage.getItem('hub_ics_url') || '';
+            geminiInput.value = localStorage.getItem('hub_gemini_key') || '';
             modal.classList.add('open');
         });
 
-        document.getElementById('close-settings-btn').addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
+        document.getElementById('close-settings-btn').addEventListener('click', () => modal.classList.remove('open'));
 
         document.getElementById('save-settings-btn').addEventListener('click', () => {
             let url = calInput.value.trim();
-            if (url.startsWith('webcal://')) {
-                url = 'https://' + url.substring(9);
-            }
+            if (url.startsWith('webcal://')) url = 'https://' + url.substring(9);
             localStorage.setItem('hub_ics_url', url);
+            localStorage.setItem('hub_gemini_key', geminiInput.value.trim());
             modal.classList.remove('open');
             loadCalendar();
         });
 
+        // 7. iCloud Kalendář
         async function loadCalendar() {
             const url = localStorage.getItem('hub_ics_url');
             const container = document.getElementById('calendar-events-container');
             const status = document.getElementById('calendar-status');
 
             if (!url) {
-                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Vlož odkaz na kalendář v nastavení (ozubené kolo).</div>';
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Vlož odkaz na kalendář v nastavení.</div>';
                 return;
             }
 
@@ -931,9 +1097,8 @@
                 parseICS(text);
                 status.textContent = '●';
             } catch (err) {
-                console.error(err);
                 status.textContent = '✕';
-                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Kalendář se nepodařilo synchronizovat.</div>';
+                container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Nepodařilo se synchronizovat.</div>';
             }
         }
 
@@ -949,16 +1114,10 @@
                     current = {};
                 } else if (line.startsWith('END:VEVENT')) {
                     inEvent = false;
-                    if (current.summary && current.dtstart) {
-                        events.push(current);
-                    }
+                    if (current.summary && current.dtstart) events.push(current);
                 } else if (inEvent) {
-                    if (line.startsWith('SUMMARY:')) {
-                        current.summary = line.substring(8);
-                    } else if (line.startsWith('DTSTART')) {
-                        const val = line.split(':')[1];
-                        current.dtstart = val;
-                    }
+                    if (line.startsWith('SUMMARY:')) current.summary = line.substring(8);
+                    else if (line.startsWith('DTSTART')) current.dtstart = line.split(':')[1];
                 }
             }
 
@@ -971,19 +1130,27 @@
 
             if (events.length === 0) {
                 container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Žádné nadcházející události.</div>';
+                document.getElementById('home-next-event').textContent = 'Žádné události';
+                document.getElementById('home-event-date').textContent = '--';
                 return;
             }
 
+            // Nastavení nejbližší události na Home Screen
+            const first = events[0];
+            let firstDateFormatted = '';
+            if (first.dtstart && first.dtstart.length >= 8) {
+                firstDateFormatted = `${first.dtstart.substring(6, 8)}.${first.dtstart.substring(4, 6)}.`;
+            }
+            document.getElementById('home-next-event').textContent = first.summary || 'Událost';
+            document.getElementById('home-event-date').textContent = firstDateFormatted || 'Brzy';
+
+            // Výpis do záložky Kalendář
             events.slice(0, 5).forEach(ev => {
                 const item = document.createElement('div');
                 item.className = 'list-item';
-                
                 let dateFormatted = '';
                 if (ev.dtstart && ev.dtstart.length >= 8) {
-                    const y = ev.dtstart.substring(0, 4);
-                    const m = ev.dtstart.substring(4, 6);
-                    const d = ev.dtstart.substring(6, 8);
-                    dateFormatted = `${d}.${m}.`;
+                    dateFormatted = `${ev.dtstart.substring(6, 8)}.${ev.dtstart.substring(4, 6)}.`;
                 }
 
                 item.innerHTML = `
@@ -995,6 +1162,50 @@
                 `;
                 container.appendChild(item);
             });
+        }
+
+        // 8. Gemini AI Integrace
+        const geminiBtn = document.getElementById('gemini-submit');
+        const geminiInputEl = document.getElementById('gemini-query');
+        const geminiOutputEl = document.getElementById('gemini-output');
+
+        geminiBtn.addEventListener('click', askGemini);
+        geminiInputEl.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') askGemini();
+        });
+
+        async function askGemini() {
+            const prompt = geminiInputEl.value.trim();
+            const apiKey = localStorage.getItem('hub_gemini_key');
+
+            if (!prompt) return;
+            if (!apiKey) {
+                geminiOutputEl.style.display = 'block';
+                geminiOutputEl.textContent = 'Pro odpověď nejprve vlož svůj Gemini API klíč v nastavení (ikona ozubeného kola dole).';
+                return;
+            }
+
+            geminiOutputEl.style.display = 'block';
+            geminiOutputEl.textContent = 'Gemini přemýšlí...';
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const data = await res.json();
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    geminiOutputEl.textContent = data.candidates[0].content.parts[0].text;
+                } else {
+                    geminiOutputEl.textContent = 'Nepodařilo se získat odpověď. Zkontroluj správnost klíče.';
+                }
+            } catch (err) {
+                geminiOutputEl.textContent = 'Chyba spojení s Gemini API.';
+            }
         }
 
         function escapeHtml(text) {
