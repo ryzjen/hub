@@ -309,7 +309,7 @@
             background: rgba(0, 0, 0, 0.25);
             padding: 0.75rem;
             border-radius: var(--radius-sm);
-            max-height: 150px;
+            max-height: 160px;
             overflow-y: auto;
             white-space: pre-wrap;
             display: none;
@@ -708,7 +708,7 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">✨ Gemini AI • Rychlá odpověď</span>
-                    <span class="pill-badge">Online</span>
+                    <span class="pill-badge">v2.5 Flash</span>
                 </div>
                 <div class="gemini-box">
                     <div class="gemini-input-row">
@@ -1183,30 +1183,36 @@
             geminiOutputEl.style.display = 'block';
             geminiOutputEl.textContent = 'Gemini přemýšlí...';
 
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
-                });
+            // Zkusí gemini-2.5-flash, pokud selže zkusí gemini-2.0-flash nebo gemini-2.5-pro
+            const candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.5-pro'];
+            let lastErr = '';
 
-                const data = await res.json();
-                
-                if (data.error) {
-                    geminiOutputEl.textContent = `Chyba API: ${data.error.message || 'Neplatný klíč'}`;
-                    return;
-                }
+            for (const model of candidateModels) {
+                try {
+                    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: prompt }] }]
+                        })
+                    });
 
-                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                    geminiOutputEl.textContent = data.candidates[0].content.parts[0].text;
-                } else {
-                    geminiOutputEl.textContent = 'Model nevrátil žádný text.';
+                    const data = await res.json();
+
+                    if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                        geminiOutputEl.textContent = data.candidates[0].content.parts[0].text;
+                        return;
+                    }
+
+                    if (data.error) {
+                        lastErr = data.error.message || 'Chyba API';
+                    }
+                } catch (e) {
+                    lastErr = 'Chyba sítě';
                 }
-            } catch (err) {
-                geminiOutputEl.textContent = 'Chyba připojení k síti.';
             }
+
+            geminiOutputEl.textContent = `Chyba API: ${lastErr}`;
         }
 
         function escapeHtml(text) {
