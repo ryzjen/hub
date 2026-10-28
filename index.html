@@ -84,6 +84,12 @@
             box-shadow: 0 0 10px var(--accent-blue);
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
         .nav-desktop {
             display: flex;
             gap: 0.4rem;
@@ -108,6 +114,25 @@
         .nav-btn-pc.active {
             background: var(--accent-blue);
             color: #fff;
+        }
+
+        .header-settings-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+
+        .header-settings-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .card {
@@ -281,10 +306,10 @@
             font-size: 0.82rem;
             color: #d1d5db;
             line-height: 1.5;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.25);
             padding: 0.75rem;
             border-radius: var(--radius-sm);
-            max-height: 140px;
+            max-height: 150px;
             overflow-y: auto;
             white-space: pre-wrap;
             display: none;
@@ -474,25 +499,6 @@
             padding: 0.2rem;
         }
 
-        .settings-fab {
-            position: fixed;
-            bottom: 1.25rem;
-            right: 1.25rem;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background-color: var(--accent-blue);
-            color: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 14px var(--accent-glow);
-            cursor: pointer;
-            z-index: 50;
-        }
-
         .mobile-nav {
             display: none;
         }
@@ -515,13 +521,6 @@
                 display: flex;
                 flex-direction: column;
                 gap: 0.9rem;
-            }
-            .settings-fab {
-                bottom: 72px;
-                right: 1rem;
-                width: 38px;
-                height: 38px;
-                font-size: 1rem;
             }
             .mobile-nav {
                 display: flex;
@@ -687,12 +686,16 @@
                 <span>Command Hub</span>
             </div>
             
-            <div class="nav-desktop">
-                <button class="nav-btn-pc active" onclick="switchGlobalView('view-home', this)">Home</button>
-                <button class="nav-btn-pc" onclick="switchGlobalView('view-hub', this)">Celý Hub</button>
+            <div class="header-actions">
+                <div class="nav-desktop">
+                    <button class="nav-btn-pc active" onclick="switchGlobalView('view-home', this)">Home</button>
+                    <button class="nav-btn-pc" onclick="switchGlobalView('view-hub', this)">Celý Hub</button>
+                </div>
+                <button class="header-settings-btn" id="open-settings-header" title="Nastavení">⚙</button>
             </div>
         </header>
 
+        <!-- 1. HOME SCREEN -->
         <div class="tab-view active" id="view-home">
             <div class="home-hero">
                 <div class="home-time">
@@ -724,7 +727,7 @@
                 <div class="card-body">
                     <div class="list-item">
                         <div class="item-main">
-                            <span class="item-title" id="home-next-class">Matematika (Dílny / Třída)</span>
+                            <span class="item-title" id="home-next-class">Matematika (Dílny / Učebna 207)</span>
                             <span class="item-subtitle">Rozvrh • Další vyučovací hodina</span>
                         </div>
                         <span class="item-badge" id="home-class-time">08:00</span>
@@ -757,6 +760,7 @@
             </div>
         </div>
 
+        <!-- 2. CELÝ HUB -->
         <div class="tab-view" id="view-hub">
             <div class="card" id="card-school">
                 <div class="card-header">
@@ -791,4 +795,427 @@
             <div class="card" id="card-calendar">
                 <div class="card-header">
                     <span class="card-title">iCloud Kalendář</span>
-                    <span style="font-size: 0.75rem; color: var(--text-muted);" id
+                    <span style="font-size: 0.75rem; color: var(--text-muted);" id="calendar-status">🔗</span>
+                </div>
+                <div class="card-body" id="calendar-events-container">
+                    <div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">
+                        Vlož odkaz na kalendář v nastavení (ozubené kolo).
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="card-home">
+                <div class="card-header">
+                    <span class="card-title">SmartThings</span>
+                    <span class="pill-badge">Pokoj</span>
+                </div>
+                <div class="card-body">
+                    <div class="st-grid">
+                        <button class="st-btn active" onclick="this.classList.toggle('active')">
+                            <span>⚡</span> Focus
+                        </button>
+                        <button class="st-btn" onclick="this.classList.toggle('active')">
+                            <span>🎮</span> Gaming
+                        </button>
+                        <button class="st-btn" onclick="this.classList.toggle('active')">
+                            <span>🌙</span> Relax
+                        </button>
+                        <button class="st-btn" onclick="this.classList.toggle('active')">
+                            <span>💪</span> Workout
+                        </button>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.55rem; margin-top: 0.35rem;">
+                        <div class="st-dev-row">
+                            <span style="font-size: 0.85rem; font-weight: 500;">Noční lampa</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="sub-lamp-toggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="st-dev-row">
+                            <span style="font-size: 0.85rem; font-weight: 500;">PC & Monitory</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="card-tasks">
+                <div class="card-header">
+                    <span class="card-title">Úkoly a list</span>
+                    <span class="pill-badge" id="todo-count">0/0</span>
+                </div>
+                <div class="card-body">
+                    <div class="todo-input-group">
+                        <input type="text" class="todo-input" id="todo-new-text" placeholder="Nový úkol...">
+                        <button class="btn-add" id="todo-btn-add">+</button>
+                    </div>
+                    <div id="todo-items-list" style="display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.35rem;"></div>
+
+                    <div style="margin-top: 0.8rem; border-top: 1px solid var(--card-border); padding-top: 0.6rem;">
+                        <span class="card-title" style="margin-bottom: 0.4rem;">Rychlá poznámka</span>
+                        <textarea class="notes-textarea" id="scratchpad" placeholder="Zapiš myšlenku nebo poznámky..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobilní dok -->
+    <nav class="mobile-nav">
+        <button class="nav-item" onclick="switchMobileTab('card-school', this)">
+            <span class="icon">🏫</span>
+            <span>Škola</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('card-calendar', this)">
+            <span class="icon">📅</span>
+            <span>Kalendář</span>
+        </button>
+        <button class="nav-item home-icon active" onclick="switchMobileTab('view-home', this)">
+            <span class="icon">⌂</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('card-home', this)">
+            <span class="icon">⚡</span>
+            <span>Pokoj</span>
+        </button>
+        <button class="nav-item" onclick="switchMobileTab('card-tasks', this)">
+            <span class="icon">📝</span>
+            <span>Úkoly</span>
+        </button>
+    </nav>
+
+    <!-- Modal Nastavení -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-box">
+            <div class="modal-title">Nastavení Hubu</div>
+            <div class="modal-form">
+                <div class="form-group">
+                    <label class="form-label">Veřejný iCloud kalendář (.ics):</label>
+                    <input type="url" class="form-input" id="calendar-url-input" placeholder="webcal://pXX-caldav.icloud.com/...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Google Gemini API klíč:</label>
+                    <input type="password" class="form-input" id="gemini-key-input" placeholder="AIzaSy...">
+                    <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Klíč získáš na aistudio.google.com</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="close-settings-btn">Zrušit</button>
+                <button class="btn-save" id="save-settings-btn">Uložit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const hEl = document.getElementById('home-hours-min');
+            const sEl = document.getElementById('home-sec');
+            const dEl = document.getElementById('home-full-date');
+
+            if (hEl) hEl.textContent = `${hours}:${minutes}`;
+            if (sEl) sEl.textContent = `:${seconds}`;
+
+            const days = ['neděle', 'pondělí', 'úterý', 'středa', 'čtvrtek', 'pátek', 'sobota'];
+            const dayName = days[now.getDay()];
+            const dateStr = `${now.getDate()}. ${now.getMonth() + 1}. ${now.getFullYear()}`;
+            if (dEl) dEl.textContent = `${dayName}, ${dateStr}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function switchGlobalView(viewId, btn) {
+            document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn-pc').forEach(b => b.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            if (btn) btn.classList.add('active');
+        }
+
+        function switchMobileTab(targetId, btn) {
+            document.querySelectorAll('.mobile-nav .nav-item').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            if (targetId === 'view-home') {
+                document.getElementById('view-hub').classList.remove('active');
+                document.getElementById('view-home').classList.add('active');
+            } else {
+                document.getElementById('view-home').classList.remove('active');
+                document.getElementById('view-hub').classList.add('active');
+                document.querySelectorAll('#view-hub .card').forEach(c => {
+                    c.style.display = (c.id === targetId) ? 'flex' : 'none';
+                });
+            }
+        }
+
+        const homeLamp = document.getElementById('home-lamp-toggle');
+        const subLamp = document.getElementById('sub-lamp-toggle');
+        if (homeLamp && subLamp) {
+            homeLamp.addEventListener('change', () => subLamp.checked = homeLamp.checked);
+            subLamp.addEventListener('change', () => homeLamp.checked = subLamp.checked);
+        }
+
+        const scratchpad = document.getElementById('scratchpad');
+        if (scratchpad) {
+            scratchpad.value = localStorage.getItem('hub_notes') || '';
+            scratchpad.addEventListener('input', (e) => localStorage.setItem('hub_notes', e.target.value));
+        }
+
+        let tasks = JSON.parse(localStorage.getItem('hub_tasks') || '[]');
+
+        function saveAndRenderTasks() {
+            localStorage.setItem('hub_tasks', JSON.stringify(tasks));
+            const listEl = document.getElementById('todo-items-list');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+
+            let doneCount = 0;
+            let firstPending = null;
+
+            tasks.forEach((t, i) => {
+                if (t.done) {
+                    doneCount++;
+                } else if (!firstPending) {
+                    firstPending = t.text;
+                }
+
+                const item = document.createElement('div');
+                item.className = 'todo-item';
+                item.innerHTML = `
+                    <div class="todo-left">
+                        <input type="checkbox" class="todo-checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${i})">
+                        <span class="todo-text ${t.done ? 'done' : ''}">${escapeHtml(t.text)}</span>
+                    </div>
+                    <button class="btn-del" onclick="deleteTask(${i})">✕</button>
+                `;
+                listEl.appendChild(item);
+            });
+
+            const countEl = document.getElementById('todo-count');
+            if (countEl) countEl.textContent = `${doneCount}/${tasks.length}`;
+
+            const pendingTotal = tasks.length - doneCount;
+            const homeTaskEl = document.getElementById('home-next-task');
+            const homeTaskStat = document.getElementById('home-tasks-status');
+            if (homeTaskEl) homeTaskEl.textContent = firstPending || 'Vše hotovo!';
+            if (homeTaskStat) homeTaskStat.textContent = `${pendingTotal} zbývá`;
+        }
+
+        window.toggleTask = function(index) {
+            tasks[index].done = !tasks[index].done;
+            saveAndRenderTasks();
+        };
+
+        window.deleteTask = function(index) {
+            tasks.splice(index, 1);
+            saveAndRenderTasks();
+        };
+
+        const addTaskBtn = document.getElementById('todo-btn-add');
+        const taskInput = document.getElementById('todo-new-text');
+        if (addTaskBtn && taskInput) {
+            addTaskBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') addTask();
+            });
+        }
+
+        function addTask() {
+            const input = document.getElementById('todo-new-text');
+            const val = input.value.trim();
+            if (val) {
+                tasks.push({ text: val, done: false });
+                input.value = '';
+                saveAndRenderTasks();
+            }
+        }
+        saveAndRenderTasks();
+
+        // Nastavení modal
+        const modal = document.getElementById('settings-modal');
+        const calInput = document.getElementById('calendar-url-input');
+        const geminiInput = document.getElementById('gemini-key-input');
+        const openSettingsBtn = document.getElementById('open-settings-header');
+        const closeSettingsBtn = document.getElementById('close-settings-btn');
+        const saveSettingsBtn = document.getElementById('save-settings-btn');
+
+        if (openSettingsBtn) {
+            openSettingsBtn.addEventListener('click', () => {
+                calInput.value = localStorage.getItem('hub_ics_url') || '';
+                geminiInput.value = localStorage.getItem('hub_gemini_key') || '';
+                modal.classList.add('open');
+            });
+        }
+
+        if (closeSettingsBtn) {
+            closeSettingsBtn.addEventListener('click', () => modal.classList.remove('open'));
+        }
+
+        if (saveSettingsBtn) {
+            saveSettingsBtn.addEventListener('click', () => {
+                let url = calInput.value.trim();
+                if (url.startsWith('webcal://')) url = 'https://' + url.substring(9);
+                localStorage.setItem('hub_ics_url', url);
+                localStorage.setItem('hub_gemini_key', geminiInput.value.trim());
+                modal.classList.remove('open');
+                loadCalendar();
+            });
+        }
+
+        // Kalendář
+        async function loadCalendar() {
+            const url = localStorage.getItem('hub_ics_url');
+            const container = document.getElementById('calendar-events-container');
+            const status = document.getElementById('calendar-status');
+
+            if (!url) {
+                if (container) container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Vlož odkaz na kalendář v nastavení.</div>';
+                return;
+            }
+
+            if (status) status.textContent = '⏳';
+            try {
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                const res = await fetch(proxyUrl);
+                if (!res.ok) throw new Error('Chyba');
+                const text = await res.text();
+                parseICS(text);
+                if (status) status.textContent = '●';
+            } catch (err) {
+                if (status) status.textContent = '✕';
+                if (container) container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Nepodařilo se synchronizovat.</div>';
+            }
+        }
+
+        function parseICS(icsData) {
+            const lines = icsData.split(/\r\n|\n|\r/);
+            const events = [];
+            let inEvent = false;
+            let current = {};
+
+            for (let line of lines) {
+                if (line.startsWith('BEGIN:VEVENT')) {
+                    inEvent = true;
+                    current = {};
+                } else if (line.startsWith('END:VEVENT')) {
+                    inEvent = false;
+                    if (current.summary && current.dtstart) events.push(current);
+                } else if (inEvent) {
+                    if (line.startsWith('SUMMARY:')) current.summary = line.substring(8);
+                    else if (line.startsWith('DTSTART')) current.dtstart = line.split(':')[1];
+                }
+            }
+
+            renderEvents(events);
+        }
+
+        function renderEvents(events) {
+            const container = document.getElementById('calendar-events-container');
+            if (container) container.innerHTML = '';
+
+            if (events.length === 0) {
+                if (container) container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; margin-top: 1.5rem;">Žádné nadcházející události.</div>';
+                document.getElementById('home-next-event').textContent = 'Žádné události';
+                document.getElementById('home-event-date').textContent = '--';
+                return;
+            }
+
+            const first = events[0];
+            let firstDateFormatted = '';
+            if (first.dtstart && first.dtstart.length >= 8) {
+                firstDateFormatted = `${first.dtstart.substring(6, 8)}.${first.dtstart.substring(4, 6)}.`;
+            }
+            document.getElementById('home-next-event').textContent = first.summary || 'Událost';
+            document.getElementById('home-event-date').textContent = firstDateFormatted || 'Brzy';
+
+            if (container) {
+                events.slice(0, 5).forEach(ev => {
+                    const item = document.createElement('div');
+                    item.className = 'list-item';
+                    let dateFormatted = '';
+                    if (ev.dtstart && ev.dtstart.length >= 8) {
+                        dateFormatted = `${ev.dtstart.substring(6, 8)}.${ev.dtstart.substring(4, 6)}.`;
+                    }
+
+                    item.innerHTML = `
+                        <div class="item-main">
+                            <span class="item-title">${escapeHtml(ev.summary || 'Událost')}</span>
+                            <span class="item-subtitle">${dateFormatted ? 'Termín: ' + dateFormatted : ''}</span>
+                        </div>
+                        <span class="item-badge">${dateFormatted}</span>
+                    `;
+                    container.appendChild(item);
+                });
+            }
+        }
+
+        // Gemini AI
+        const geminiBtn = document.getElementById('gemini-submit');
+        const geminiInputEl = document.getElementById('gemini-query');
+        const geminiOutputEl = document.getElementById('gemini-output');
+
+        if (geminiBtn && geminiInputEl) {
+            geminiBtn.addEventListener('click', askGemini);
+            geminiInputEl.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') askGemini();
+            });
+        }
+
+        async function askGemini() {
+            const prompt = geminiInputEl.value.trim();
+            const apiKey = (localStorage.getItem('hub_gemini_key') || '').trim();
+
+            if (!prompt) return;
+            if (!apiKey) {
+                geminiOutputEl.style.display = 'block';
+                geminiOutputEl.textContent = 'Vlož Gemini API klíč v nastavení (ikona ⚙ v pravém horním rohu).';
+                return;
+            }
+
+            geminiOutputEl.style.display = 'block';
+            geminiOutputEl.textContent = 'Gemini přemýšlí...';
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const data = await res.json();
+                
+                if (data.error) {
+                    geminiOutputEl.textContent = `Chyba API: ${data.error.message || 'Neplatný klíč'}`;
+                    return;
+                }
+
+                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                    geminiOutputEl.textContent = data.candidates[0].content.parts[0].text;
+                } else {
+                    geminiOutputEl.textContent = 'Model nevrátil žádný text.';
+                }
+            } catch (err) {
+                geminiOutputEl.textContent = 'Chyba připojení k síti.';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadCalendar();
+    </script>
+</body>
+</html>
